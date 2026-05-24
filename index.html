@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Monogram LED Wall</title>
+    <title>Christian & Razel Wedding Monogram</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
@@ -19,14 +19,15 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0d0a07; /* Dark elegant base */
+            /* Elegant off-white/champagne background from your screenshot example */
+            background: radial-gradient(circle, #f9f6f0 0%, #e0dacf 100%);
             font-family: 'Cinzel', serif;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* 1. Animated Bokeh Background */
+        /* 1. Animated Gold Bokeh Background */
         .background-canvas {
             position: absolute;
             top: 0;
@@ -34,11 +35,11 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            filter: blur(8px);
-            opacity: 0.6;
+            filter: blur(6px);
+            opacity: 0.5;
         }
 
-        /* 2. Main Container (16:9 Aspect Ratio Safe Zone) */
+        /* 2. Main Container */
         .led-container {
             position: relative;
             z-index: 2;
@@ -51,56 +52,70 @@
             text-align: center;
         }
 
-        /* 3. Gold Monogram Ring & Animation */
+        /* 3. Luxury Metallic Gold Monogram Ring */
         .monogram-circle {
             position: relative;
-            width: 45vh;
-            height: 45vh;
-            border: 3px solid transparent;
-            border-image: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c) 1;
-            border-radius: 50%; /* Note: border-image resets radius, clip-path keeps it round */
+            width: 48vh;
+            height: 48vh;
+            border: 4px solid transparent;
+            /* Multi-stop gold gradient for a metallic gleam */
+            border-image: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%) 1;
+            border-radius: 50%;
             clip-path: circle(50% at 50% 50%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 40px;
-            animation: fadeInRing 2.5s ease-out forwards;
-            box-shadow: 0 0 30px rgba(191, 149, 63, 0.2);
+            animation: fadeInRing 3s ease-out forwards;
+            box-shadow: 0 10px 40px rgba(170, 119, 28, 0.15);
         }
 
-        /* 4. Typography Styles */
+        /* Subtle rotating glow effect behind the ring */
+        .monogram-circle::before {
+            content: '';
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            background: radial-gradient(circle, rgba(252,246,186,0.3) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* 4. Deep Navy Blue Theme Typography */
         .initials {
             font-family: 'Great Vibes', cursive;
-            font-size: 16vh;
-            background: linear-gradient(to right, #c5a059, #fdf8c7, #b99037);
+            font-size: 18vh;
+            /* Rich Navy Blue base with a subtle midnight gradient */
+            background: linear-gradient(to bottom, #1d2d44, #0d1b2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            line-height: 1;
-            margin-bottom: 1vh;
+            line-height: 0.9;
+            margin-bottom: 2vh;
             opacity: 0;
-            animation: fadeInText 2s ease-out 1.5s forwards;
+            animation: fadeInText 2s ease-out 1.2s forwards;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
         }
 
         .full-names {
-            font-size: 2.5vh;
-            color: #e6dfd3;
-            letter-spacing: 0.4em;
+            font-size: 2.6vh;
+            /* Premium Navy Blue text */
+            color: #0d1b2a;
+            letter-spacing: 0.45em;
             text-transform: uppercase;
-            font-weight: 400;
+            font-weight: 600;
             opacity: 0;
-            animation: fadeInText 2s ease-out 2.5s forwards;
+            animation: fadeInText 2s ease-out 2.2s forwards;
             white-space: nowrap;
         }
 
-        /* CSS Animations */
+        /* Clean CSS Animations */
         @keyframes fadeInRing {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.85); }
             to { opacity: 1; transform: scale(1); }
         }
 
         @keyframes fadeInText {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -111,8 +126,8 @@
 
     <div class="led-container">
         <div class="monogram-circle">
-            <div class="initials">G&K</div>
-            <div class="full-names">Gary & Krizzell</div>
+            <div class="initials">R&C</div>
+            <div class="full-names">Razel & Christian</div>
         </div>
     </div>
 
@@ -128,17 +143,17 @@
         resizeCanvas();
 
         const particles = [];
-        const particleCount = 40;
+        const particleCount = 35; // Kept clean and minimal
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.radius = Math.random() * 20 + 10;
-                this.speedY = -(Math.random() * 0.3 + 0.1);
-                this.opacity = Math.random() * 0.5 + 0.1;
-                // Soft warm cream/gold tones
-                this.color = `rgba(${Math.floor(Math.random() * 40 + 215)}, ${Math.floor(Math.random() * 40 + 185)}, 140, ${this.opacity})`;
+                this.radius = Math.random() * 25 + 12;
+                this.speedY = -(Math.random() * 0.2 + 0.05); // Slow, floating upward motion
+                this.opacity = Math.random() * 0.4 + 0.1;
+                // Luxury warm champagne/gold particle colors
+                this.color = `rgba(${Math.floor(Math.random() * 20 + 230)}, ${Math.floor(Math.random() * 20 + 200)}, 160, ${this.opacity})`;
             }
             update() {
                 this.y += this.speedY;
