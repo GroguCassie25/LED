@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Razel & Christian Wedding Monogram</title>
+    <title>Razel & Christian Elegant Monogram</title>
     <style>
-        /* Reset and Fullscreen Stage */
+        /* Stage Reset & Fullscreen Management */
         * {
             margin: 0;
             padding: 0;
@@ -15,12 +15,12 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0c040a;
-            font-family: 'Cinzel', 'Playfair Display', serif;
+            background-color: #0d050a;
+            font-family: 'Playfair Display', serif;
         }
 
-        /* Video Background Container (Matches the video's depth perfectly) */
-        .video-bg-container {
+        /* Ambient Video Background Layer */
+        .led-video-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -29,122 +29,149 @@
             z-index: 1;
             overflow: hidden;
         }
-        .video-bg-container iframe {
+        .led-video-container iframe {
             width: 100vw;
-            height: 56.25vw; /* 16:9 Aspect Ratio */
+            height: 56.25vw; /* 16:9 Aspect Ratio Alignment */
             min-height: 100vh;
-            min-width: 177.77vh; /* Maintains proportion */
+            min-width: 177.77vh;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
-            opacity: 0.85;
-            filter: contrast(1.1) brightness(0.9);
+            opacity: 0.88;
+            filter: brightness(0.95) contrast(1.05);
         }
 
-        /* Subtle dark vignette overlay to make the center monogram pop */
-        .vignette-overlay {
+        /* Vignette mask to blend edges naturally onto an LED wall stage */
+        .stage-vignette {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 40%, rgba(12, 4, 10, 0.4) 80%, rgba(12, 4, 10, 0.85) 100%);
+            background: radial-gradient(circle, transparent 50%, rgba(13, 5, 10, 0.3) 80%, rgba(13, 5, 10, 0.8) 100%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Central Monogram Stage */
-        .monogram-stage {
+        /* Monogram Frame Positioning */
+        .monogram-centerpiece {
             position: absolute;
-            top: 50%;
+            top: 46%; /* Slightly raised to match the vertical center balance of your photo */
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
-            max-width: 800px;
-            height: 800px;
+            max-width: 780px;
+            height: 780px;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 3;
         }
 
-        /* The Gold Oval & Lavender Floral Wreath Framework */
-        .wreath-framework {
+        /* High-fidelity Floral & Gold Double Ring Asset */
+        .floral-wreath-layer {
             position: absolute;
             width: 100%;
             height: 100%;
             background: url('https://i.ibb.co/6R0n7YgR/floral-gold-wreath.png') center center no-repeat;
             background-size: contain;
-            animation: gentlePulse 8s ease-in-out infinite alternate;
-            filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.3));
+            animation: slowAtmosphere 10s ease-in-out infinite alternate;
         }
 
-        /* Typography Wrapper */
-        .text-container {
+        /* INTERLOCKING MONOGRAM ENGINE */
+        .interlocking-logo-box {
             position: relative;
-            z-index: 4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
-            padding-bottom: 20px; /* Perfectly balances the optical center */
+            width: 400px;
+            height: 280px;
+            margin-top: -40px; /* Centers group inside the oval ring */
         }
 
-        /* Initials Layout (R & C) */
-        .initials-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Great Vibes', cursive;
-            font-size: 185px;
-            color: #1a1512;
+        /* Letter R: Sitting higher up and slightly to the left */
+        .letter-first {
+            position: absolute;
+            font-family: 'Alex Brush', cursive;
+            font-size: 260px;
+            color: #1c1815;
+            top: -40px;
+            left: 10px;
             line-height: 1;
-            margin-bottom: -15px;
+            z-index: 4;
+        }
+
+        /* The Custom Script Ampersand interlocking inside the R's loop */
+        .script-ampersand {
+            position: absolute;
+            font-family: 'Alex Brush', cursive;
+            font-size: 130px;
+            color: #1c1815;
+            top: 85px;
+            left: 135px;
+            z-index: 6; /* Layers over the R but tucks behind the C */
+        }
+
+        /* Letter C: Sitting lower down and shifted right */
+        .letter-second {
+            position: absolute;
+            font-family: 'Alex Brush', cursive;
+            font-size: 270px;
+            color: #1c1815;
+            top: 30px;
+            left: 175px;
+            line-height: 1;
+            z-index: 5;
+        }
+
+        /* Subtext Label Area */
+        .names-footer {
+            position: absolute;
+            bottom: 175px;
+            width: 100%;
+            text-align: center;
+            z-index: 4;
+        }
+
+        /* Soft, whimsical serif typography to perfectly match 'GARY & KRIZZELL' style */
+        .wedding-names {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 500;
+            font-style: italic;
+            color: #29221d;
+            letter-spacing: 0.05em;
             text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
         }
 
-        /* The Interlocking Golden Ampersand */
-        .ampersand {
-            font-family: 'Playfair Display', serif;
-            font-size: 65px;
-            font-style: italic;
-            font-weight: 600;
-            color: #caa463; /* Authentic metallic gold tone */
-            margin: 0 -22px;
-            z-index: 5;
-            position: relative;
-            top: 15px; /* Pulls it down to interlock gracefully between the letters */
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Divider Line matching the original image */
-        .divider {
-            width: 160px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(202, 164, 99, 0.6), transparent);
-            margin: 15px 0 25px 0;
-        }
-
-        /* Full Names Formatting */
-        .full-names {
-            font-family: 'Cinzel', 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 500;
-            color: #241e1a;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
-            padding-left: 0.3em; /* Offsets letter-spacing to ensure absolute center */
-        }
-
-        /* Gentle atmospheric animation for the wreath */
-        @keyframes gentlePulse {
-            0% { transform: scale(0.98); opacity: 0.95; }
-            100% { transform: scale(1.02); opacity: 1; }
+        /* Soft pulse animation for the visual framework */
+        @keyframes slowAtmosphere {
+            0% { transform: scale(0.99); opacity: 0.97; }
+            100% { transform: scale(1.01); opacity: 1; }
         }
     </style>
-    <link href="
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="led-video-container">
+        <iframe src="https://www.youtube.com/embed/4S2r6rN8b78?autoplay=1&mute=1&loop=1&playlist=4S2r6rN8b78&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <div class="stage-vignette"></div>
+
+    <div class="monogram-centerpiece">
+        <div class="floral-wreath-layer"></div>
+        
+        <div class="interlocking-logo-box">
+            <div class="letter-first">R</div>
+            <div class="script-ampersand">&</div>
+            <div class="letter-second">C</div>
+        </div>
+
+        <div class="names-footer">
+            <div class="wedding-names">Razel & Christian</div>
+        </div>
+    </div>
+
+</body>
+</html>
