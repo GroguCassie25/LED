@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Razel & Christian Wedding Monogram</title>
     <style>
-        /* Base Setup & Fullscreen Layout */
+        /* Reset and Fullscreen Stage */
         * {
             margin: 0;
             padding: 0;
@@ -15,230 +15,136 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0b0200;
-            font-family: 'Playfair Display', 'Georgia', serif;
+            background-color: #0c040a;
+            font-family: 'Cinzel', 'Playfair Display', serif;
         }
 
-        /* Ambient Glowing Background (Warm Light & Purple Tones) */
-        .led-background {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, #fff7e6 0%, #f7d08a 30%, #cca262 60%, #3d1b40 90%, #0b0200 100%);
-            opacity: 0.95;
-            z-index: 1;
-        }
-
-        /* Canvas layer for the drifting bokeh lights */
-        canvas {
+        /* Video Background Container (Matches the video's depth perfectly) */
+        .video-bg-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 2;
-            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
         }
-
-        /* Central Monogram Container */
-        .monogram-container {
+        .video-bg-container iframe {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            min-height: 100vh;
+            min-width: 177.77vh; /* Maintains proportion */
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0.85;
+            filter: contrast(1.1) brightness(0.9);
+        }
+
+        /* Subtle dark vignette overlay to make the center monogram pop */
+        .vignette-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(12, 4, 10, 0.4) 80%, rgba(12, 4, 10, 0.85) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Central Monogram Stage */
+        .monogram-stage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 800px;
+            height: 800px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 3;
-            width: 90vh;
-            height: 90vh;
-            max-width: 90vw;
-            max-height: 90vw;
         }
 
-        /* Golden Oval Ring with Purple/Pink Floral Watercolor Accents */
-        .floral-ring {
+        /* The Gold Oval & Lavender Floral Wreath Framework */
+        .wreath-framework {
             position: absolute;
-            width: 75%;
-            height: 95%;
-            border: 8px double rgba(212, 175, 55, 0.8);
-            border-radius: 50%;
-            box-shadow: 0 0 40px rgba(255, 223, 128, 0.5), inset 0 0 30px rgba(255, 223, 128, 0.3);
-            /* Simulating watercolor floral clusters at the top and bottom using layered gradients */
-            background: 
-                radial-gradient(circle at 50% 0%, rgba(186, 85, 211, 0.5) 0%, rgba(138, 43, 226, 0.3) 15%, transparent 35%),
-                radial-gradient(circle at 45% 3%, rgba(255, 105, 180, 0.4) 0%, transparent 20%),
-                radial-gradient(circle at 55% 2%, rgba(147, 112, 219, 0.4) 0%, transparent 20%),
-                radial-gradient(circle at 50% 100%, rgba(186, 85, 211, 0.5) 0%, rgba(138, 43, 226, 0.3) 15%, transparent 35%),
-                radial-gradient(circle at 47% 97%, rgba(255, 105, 180, 0.4) 0%, transparent 20%),
-                radial-gradient(circle at 53% 98%, rgba(147, 112, 219, 0.4) 0%, transparent 20%);
-            animation: slowGlow 6s ease-in-out infinite alternate;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/6R0n7YgR/floral-gold-wreath.png') center center no-repeat;
+            background-size: contain;
+            animation: gentlePulse 8s ease-in-out infinite alternate;
+            filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.3));
         }
 
-        /* Typography & Text Styling */
-        .text-wrap {
+        /* Typography Wrapper */
+        .text-container {
             position: relative;
-            text-align: center;
+            z-index: 4;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-top: -20px;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 20px; /* Perfectly balances the optical center */
         }
 
-        /* Large Script Initials (R & C) */
-        .initials {
-            font-family: 'Great Vibes', 'Edwardian Script ITC', 'Brush Script MT', cursive;
-            font-size: 26vh;
-            color: #1e1a17;
-            line-height: 0.85;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
-            user-select: none;
+        /* Initials Layout (R & C) */
+        .initials-row {
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 185px;
+            color: #1a1512;
+            line-height: 1;
+            margin-bottom: -15px;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
         }
 
-        /* Golden ampersand symbol style */
+        /* The Interlocking Golden Ampersand */
         .ampersand {
-            font-size: 10vh;
             font-family: 'Playfair Display', serif;
-            color: #d4af37;
-            margin: 0 -20px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4), 1px 1px 1px rgba(0,0,0,0.2);
+            font-size: 65px;
             font-style: italic;
+            font-weight: 600;
+            color: #caa463; /* Authentic metallic gold tone */
+            margin: 0 -22px;
+            z-index: 5;
+            position: relative;
+            top: 15px; /* Pulls it down to interlock gracefully between the letters */
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
         }
 
-        /* Clean Roman serif full names below */
-        .names {
-            font-size: 4.5vh;
+        /* Divider Line matching the original image */
+        .divider {
+            width: 160px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(202, 164, 99, 0.6), transparent);
+            margin: 15px 0 25px 0;
+        }
+
+        /* Full Names Formatting */
+        .full-names {
+            font-family: 'Cinzel', 'Playfair Display', serif;
+            font-size: 26px;
             font-weight: 500;
-            color: #2b2520;
-            letter-spacing: 0.25em;
+            color: #241e1a;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            margin-top: 4vh;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-            border-top: 1px solid rgba(212, 175, 55, 0.4);
-            padding-top: 2vh;
-            width: 80%;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+            padding-left: 0.3em; /* Offsets letter-spacing to ensure absolute center */
         }
 
-        /* Subtle pulsating illumination effect for the ring */
-        @keyframes slowGlow {
-            0% {
-                box-shadow: 0 0 30px rgba(255, 223, 128, 0.4), inset 0 0 20px rgba(255, 223, 128, 0.2);
-                transform: scale(1);
-            }
-            100% {
-                box-shadow: 0 0 50px rgba(255, 223, 128, 0.7), inset 0 0 40px rgba(255, 223, 128, 0.4);
-                transform: scale(1.01);
-            }
+        /* Gentle atmospheric animation for the wreath */
+        @keyframes gentlePulse {
+            0% { transform: scale(0.98); opacity: 0.95; }
+            100% { transform: scale(1.02); opacity: 1; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <div class="led-background"></div>
-    <canvas id="bokehCanvas"></canvas>
-
-    <div class="monogram-container">
-        <div class="floral-ring"></div>
-        <div class="text-wrap">
-            <div class="initials">
-                <span>R</span>
-                <span class="ampersand">&</span>
-                <span>C</span>
-            </div>
-            <div class="names">Razel & Christian</div>
-        </div>
-    </div>
-
-    <script>
-        // Smoothly animated Canvas Bokeh Engine
-        const canvas = document.getElementById('bokehCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let particles = [];
-        const particleCount = 45; // Balance between rich visuals and performance
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class BokehParticle {
-            constructor() {
-                this.reset();
-                // Randomize initial placement so elements aren't jumping onto the screen at launch
-                this.y = Math.random() * canvas.height;
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 100;
-                this.radius = Math.random() * 45 + 15; // Diverse light sizing
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = -(Math.random() * 0.4 + 0.1); // Slow drifting upward motion
-                this.opacity = Math.random() * 0.4 + 0.1;
-                this.fadeSpeed = Math.random() * 0.002 + 0.001;
-                
-                // Color palette shifting between golden-orange glow and soft magical purple highlights
-                const colors = [
-                    `rgba(255, 244, 214, ${this.opacity})`, // Warm ivory
-                    `rgba(253, 218, 142, ${this.opacity})`, // Soft amber
-                    `rgba(244, 179, 194, ${this.opacity - 0.05})`, // Blush rose
-                    `rgba(216, 191, 216, ${this.opacity - 0.05})`  // Light thistle/lavender
-                ];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                // Slowly alternate opacity levels to create a twinkling overlay
-                if (this.y < -this.radius || this.x < -this.radius || this.x > canvas.width + this.radius) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                // Radial gradient fill gives each floating lens its soft, blurry edge characteristic of bokeh photography
-                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-                gradient.addColorStop(0, this.color);
-                gradient.addColorStop(0.8, this.color);
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                
-                ctx.fillStyle = gradient;
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function init() {
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new BokehParticle());
-            }
-        }
-
-        function animate() {
-            // Using a soft clear frame to maintain smooth trails behind lighting assets
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
-            requestAnimationFrame(animate);
-        }
-
-        init();
-        animate();
-    </script>
-</body>
-</html>
+    <link href="
